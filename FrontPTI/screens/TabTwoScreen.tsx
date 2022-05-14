@@ -1,14 +1,89 @@
-import { StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+// import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function TabTwoScreen() {
+  const [value3, onChangeText] = React.useState('  Insert amount');
+  const [value4, onChangeText2] = React.useState('  Insert amount');
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(null);
+  const [items, setItems] = React.useState([
+    {label: '  Test', value: 'test'},
+    {label: '  Production', value: 'prod'}
+  ]);
+  const [open2, setOpen2] = React.useState(false);
+  const [value2, setValue2] = React.useState(null);
+  const [items2, setItems2] = React.useState([
+    {label: '  Test', value: 'test'},
+    {label: '  Production', value: 'prod'}
+  ]);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+      <Text style={styles.title}>
+        Credit<br />
+        <br />
+      </Text>
+      <TextInput
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={text => onChangeText(text)}
+        value={value3}
+      />
+      <Text style={styles.title}>
+        <br />
+        Packet size<br />
+        <br />
+      </Text>
+      <TextInput
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={text => onChangeText2(text)}
+        value={value4}
+      />
+      <Text style={styles.title}>
+        <br />
+        Bot mode<br />
+        <br />
+      </Text>
+      <DropDownPicker
+        style={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 0.5, alignSelf: 'center'}}
+        containerStyle={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 1, alignSelf: 'center'}}
+        textStyle={{ marginVertical: 10}}
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        placeholder="  Select bot mode"
+        showTickIcon={false}
+        showArrowIcon={false}
+      />
+      <Text style={styles.title}>
+        <br />
+        Cryptos<br />
+        <br />
+      </Text>
+      <DropDownPicker
+        style={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 0.5, alignSelf: 'center'}}
+        containerStyle={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 1, alignSelf: 'center'}}
+        textStyle={{ marginVertical: 10}}
+        open={open2}
+        value={value2}
+        items={items2}
+        setOpen={setOpen2}
+        setValue={setValue2}
+        setItems={setItems2}
+        placeholder="  Select bot mode"
+        showTickIcon={false}
+        showArrowIcon={false}
+        multiple={true}
+        min={1}
+        selectedItemContainerStyle={{ backgroundColor: "green" }}
+      />
+      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
     </View>
   );
 }
