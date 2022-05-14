@@ -29,7 +29,8 @@ class binanceBot:
         self.timePeriod = timePeriod
         self.credit = self.loadCredit(credit)               #credit for the bot 
         self.tradeAmount = float(self.loadTradeAmount())           #tradeAmount for the trades
-        self.mode = mode
+        self.mode = self.loadMode(mode)
+        print(self.mode)
         if self.tradeAmount == 0:
             self.tradeAmount = 25.00   
         self.keys = API.binanceKeysLoader()                 #load keys
@@ -199,24 +200,25 @@ class binanceBot:
     def loadCredit(self, credit):
         cursor = self.conn.cursor()
         result = credit 
-        sql = "SELECT COUNT(*) FROM trades"
-        cursor.execute(sql)
-        if cursor.fetchone()[0] > 0:
-            sql = "SELECT credit FROM trades WHERE id = (SELECT max(id) FROM trades)"
-            cursor.execute(sql)       
-            result = cursor.fetchone()[0]
+        sql = "SELECT credit FROM bot_parameters"
+        cursor.execute(sql)       
+        result = cursor.fetchone()[0]
         return result    
+
+    def loadMode(self, mode):
+        cursor = self.conn.cursor()
+        result = mode 
+        sql = "SELECT mode FROM bot_parameters"
+        cursor.execute(sql)       
+        result = cursor.fetchone()[0]
+        return result 
 
     #Load the tradeAmount used in previous executions if it existed
     def loadTradeAmount(self):        
         cursor = self.conn.cursor()
-        sql = "SELECT COUNT(*) FROM trades"
-        cursor.execute(sql)
-        result = 0
-        if cursor.fetchone()[0] > 0:
-            sql = "SELECT entryAmount FROM trades WHERE id = (SELECT max(id) FROM trades)"
-            cursor.execute(sql)       
-            result = cursor.fetchone()[0]
+        sql = "SELECT entryAmount FROM bot_parameters"
+        cursor.execute(sql)       
+        result = cursor.fetchone()[0]
         return result    
 
     #Adds addAmount to the available quantity and stores it into the db 

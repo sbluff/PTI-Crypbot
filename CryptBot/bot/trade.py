@@ -23,12 +23,17 @@ class trade:
       self.exitPrice = data[9]
       self.mode = data[10]
       self.credit = data[11] 
+      self.updateCredit(data[11])
       self.coins = data[12]
       self.client = client
       if action == 'create':
          self.writeDb()
          if self.mode == 'prod':
             self.placeOrder()
+
+   def updateCredit(self, new_credit):
+      sql = "UPDATE bot_parameters SET credit =" + str(new_credit)
+      self.cursor.execute(sql)
 
    #Stores the objet's data in the db    
    def writeDb(self):
@@ -45,13 +50,11 @@ class trade:
       sql = "UPDATE trades SET closeDate=" + "'" + self.closeDate + "'"  + ",status= " + "'" + self.status + "'" + ",sellAmount= " + str(self.sellAmount) + ",exitPrice= " + str(self.exitPrice) + ", balance= " + str(self.balance) + "WHERE id=" + str(self.id)
       self.cursor.execute(sql)
       
-      sql = "SELECT credit FROM trades where id = (select MAX(id) from trades)"       
+      sql = "SELECT credit FROM bot_parameters"       
       self.cursor.execute(sql)
       credit = self.cursor.fetchone()
-      sql = "SELECT MAX(id) FROM trades"       
-      self.cursor.execute(sql)
-      id = self.cursor.fetchone()[0]
-      sql = "UPDATE trades SET credit =" + str(float(credit[0]) + float(tradeValue)) + " id = " + str(id)
+      new_credit = str(float(credit[0]) + float(tradeValue))
+      self.updateCredit(new_credit)
 
       if self.mode == "prod":
          result = self.client.order_market_sell(symbol=self.currency, quantity=self.coins)

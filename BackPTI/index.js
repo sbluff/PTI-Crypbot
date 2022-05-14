@@ -43,6 +43,54 @@ app.get('/trades/close', (req, res) => {
     });
 })
 
+app.get('/mode', (req, res) => {
+    connection.query("SELECT mode FROM bot_parameters;", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result[0]['mode'].toString());
+    });
+});
+
+app.get('/mode/update/:new_mode', (req, res) => {
+    let new_mode = req.params.new_mode;
+    let sql = "UPDATE bot_parameters SET mode ='" + new_mode +"';"
+    connection.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.send("Success");
+    });
+});
+
+app.get('/credit', (req, res) => {
+    connection.query("SELECT credit FROM bot_parameters;", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result[0]['credit'].toString());
+    });
+});
+
+app.get('/credit/update/:new_credit', (req, res) => {
+    let new_credit = req.params.new_credit;
+    let sql = "UPDATE bot_parameters SET credit =" + new_credit +";"
+    connection.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.send("Success");
+    });
+});
+
+app.get('/packetSize', (req, res) => {
+    connection.query("SELECT entryAmount as packetSize FROM bot_parameters;", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result[0]['packetSize']);
+    });
+});
+
+app.get('/packetSize/update/:new_credit', (req, res) => {
+    let new_credit = req.params.new_credit;
+    let sql = "UPDATE bot_parameters SET entryAmount ='" + new_credit +"';"
+    connection.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.send("Success");
+    });
+});
+
 app.listen(port, () => {
   console.log(`PTI HTTP Server listening at http://localhost:${port}`)
 })
