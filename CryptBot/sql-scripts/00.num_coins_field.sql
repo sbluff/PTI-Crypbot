@@ -1,0 +1,1 @@
+ALTER TABLE trades.trades MODIFY COLUMN number_coins decimal(10,7) NULL;

@@ -1,0 +1,7 @@
+/candles/*.json
+/API/binance-keys.txt
+/__pycache__/*
+/API/__pycache__/
+/docs/*
+/API/binance-keys.txt
+workspace.code-workspace
