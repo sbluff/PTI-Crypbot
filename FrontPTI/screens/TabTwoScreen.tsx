@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput, Button } from 'react-native';
+import { StyleSheet, TextInput, Button, Alert } from 'react-native';
 
 // import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Multiselect from 'multiselect-react-dropdown';
+import axios from 'axios';
+
+let credit = "  Insert amount";
+getCredit();
+
+let PSize = "  Insert amount";
+getPSize();
+
+let mode = "test";
+getMode();
 
 export default function TabTwoScreen() {
-  const [value3, onChangeText] = React.useState('  Insert amount');
-  const [value4, onChangeText2] = React.useState('  Insert amount');
+
+  const [value3, onChangeText] = React.useState(credit);
+  const [value4, onChangeText2] = React.useState(PSize);
 
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState(mode);
   const [items, setItems] = React.useState([
     {label: '  Test', value: 'test'},
     {label: '  Production', value: 'prod'}
   ]);
-  // const [open2, setOpen2] = React.useState(false);
-  // const [value2, setValue2] = React.useState(null);
-  // const [items2, setItems2] = React.useState([
-  //   {label: '  Test', value: 'test', selectable: 'selectable'},
-  //   {label: '  Production', value: 'prod', selectable: 'selectable'}
-  // ]);
 
   return (
     <View style={styles.container}>
@@ -31,8 +36,9 @@ export default function TabTwoScreen() {
       </Text>
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => onChangeText(text)}
-        value={value3}
+        onChangeText={text => cr(text)}
+        onChange={text => onChangeText(text)}
+        value={credit}
       />
       <Text style={styles.title}>
         <br />
@@ -41,8 +47,9 @@ export default function TabTwoScreen() {
       </Text>
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => onChangeText2(text)}
-        value={value4}
+        onChangeText={text => ps(text)}
+        onChange={text => onChangeText2(text)}
+        value={PSize}
       />
       <Text style={styles.title}>
         <br />
@@ -59,9 +66,10 @@ export default function TabTwoScreen() {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        placeholder="  Select bot mode"
+        placeholder=" "
         showTickIcon={false}
         showArrowIcon={false}
+        onChangeValue={(mode) => mo(mode)}
       />
       <Text style={styles.title}>
         <br />
@@ -70,7 +78,7 @@ export default function TabTwoScreen() {
       </Text>
       <Multiselect
         customCloseIcon={<>✖</>}
-        options={[{name: 'ETH', id: 1}, {name: 'BTC', id: 2}, {name: 'SOL', id: 3}]}
+        options={[{name: 'ETH', id: 1}, {name: 'BTC', id: 2}, {name: 'SOL', id: 3}, {name: 'ADA', id: 4}]}
         style= {{
           searchBox: {
             borderColor: 'grey',
@@ -96,13 +104,95 @@ export default function TabTwoScreen() {
         <br />
       </Text>
       <Button
-        // onPress={() => Alert.alert('Simple Button pressed')}
+        // onPress={() => alert('Changes applied succesfully')}
+        onPress={() => applychanges()}
         title="Apply changes"
       />
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
     </View>
   );
+}
+
+function applychanges(){
+  setCredit();
+  setPSize();
+  setMode();
+}
+
+function cr(txt){
+  credit = txt;
+  console.log(txt);
+}
+
+function ps(txt){
+  PSize = txt;
+  console.log(txt);
+}
+
+function mo(txt){
+  mode = txt;
+  console.log(txt);
+}
+
+function getCredit(){
+  axios.get('http://localhost:8080/credit')
+  .then(response => {
+    console.log(response.data)
+    credit = "  "+response.data
+  })
+
+  //return "hola";
+}
+
+function setCredit(){
+  axios.get('http://localhost:8080/credit/update/'+credit)
+  .then(response => {
+    console.log(response.data)
+    console.log(credit)
+  })
+
+  //return "hola";
+}
+
+function getPSize(){
+  axios.get('http://localhost:8080/packetSize')
+  .then(response => {
+    console.log(response.data)
+    PSize = "  "+response.data
+  })
+
+  //return "hola";
+}
+
+function setPSize(){
+  axios.get('http://localhost:8080/packetSize/update/'+PSize)
+  .then(response => {
+    console.log(response.data)
+    console.log(PSize)
+  })
+
+  //return "hola";
+}
+
+function getMode(){
+  axios.get('http://localhost:8080/mode')
+  .then(response => {
+    console.log(response.data)
+    mode = response.data
+  })
+
+  //return "hola";
+}
+
+function setMode(){
+  axios.get('http://localhost:8080/mode/update/'+mode)
+  .then(response => {
+    //console.log(response.data)
+    console.log(mode)
+  })
+
+  //return "hola";
 }
 
 const styles = StyleSheet.create({
