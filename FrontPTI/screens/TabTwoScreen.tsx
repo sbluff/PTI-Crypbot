@@ -103,19 +103,21 @@ export default function TabTwoScreen() {
         <br />
         <br />
       </Text>
-      <Button
-        //onPress={() => alert('Changes applied succesfully')}
-        onPress={() => applychanges()}
-        title="Apply changes"
-      />
-      <Text style={styles.title}>
-        <br />
-        <br />
-      </Text>
-      <Button
-        onPress={() => clearval1()}
-        title="Clear values"
-      />
+      <View style={{ flexDirection:"row" }}>
+        <View style={{ marginRight: 20 }}>
+          <Button
+            //onPress={() => alert('Changes applied succesfully')}
+            onPress={() => applychanges()}
+            title="Apply changes"
+          />
+        </View>
+        <View style={{ marginLeft: 20 }}>
+          <Button
+            onPress={() => clearval1()}
+            title="Clear values"
+          />
+        </View>
+      </View>
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
     </View>
