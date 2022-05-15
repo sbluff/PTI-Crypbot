@@ -104,9 +104,17 @@ export default function TabTwoScreen() {
         <br />
       </Text>
       <Button
-        // onPress={() => alert('Changes applied succesfully')}
+        //onPress={() => alert('Changes applied succesfully')}
         onPress={() => applychanges()}
         title="Apply changes"
+      />
+      <Text style={styles.title}>
+        <br />
+        <br />
+      </Text>
+      <Button
+        onPress={() => clearval1()}
+        title="Clear values"
       />
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
@@ -114,7 +122,20 @@ export default function TabTwoScreen() {
   );
 }
 
+function clearval1(){
+  alert('Values cleared');
+  clearValues();
+}
+
+function clearValues(){
+  axios.get('http://localhost:8080/trades/delete')
+  .then((response) => {
+    console.log("succes")
+  })
+} 
+
 function applychanges(){
+  alert('Changes applied succesfully');
   setCredit();
   setPSize();
   setMode();

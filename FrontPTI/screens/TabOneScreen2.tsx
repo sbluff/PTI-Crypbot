@@ -12,7 +12,7 @@ import axios from 'axios'
 
 let coins_transactions = []
 let tradesData:number[] = []
-let tradesLabel:string[] = []
+// let tradesLabel:string[] = []
 setTradesData()
 
 const MyLineChart = () => {
@@ -22,7 +22,7 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            tradesLabel,
+            [],
           datasets: [
             {
               data: tradesData,

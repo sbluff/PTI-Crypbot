@@ -21,7 +21,7 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            tradesLabel,
+            [],
           datasets: [
             {
               data: tradesData,
@@ -67,6 +67,18 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   );
 }
 
+function clearval1(){
+  alert('Values cleared');
+  clearValues();
+}
+
+function clearValues(){
+  axios.get('http://localhost:8080/trades/delete')
+  .then((response) => {
+    console.log("succes")
+  })
+} 
+
 //updates tradesData value and tradesLabels
 function setTradesData(){
   axios.get('http://localhost:8080/trades')
@@ -74,7 +86,7 @@ function setTradesData(){
     let trades = response.data
     for(let i:number = 0; i < response.data.length; i++){
       tradesData.push(trades[i]['entryPrice'])
-      tradesLabel.push(trades[i]['startDate'])
+      // tradesLabel.push(trades[i]['startDate'])
     }
   })
 } 
