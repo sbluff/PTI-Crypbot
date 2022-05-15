@@ -20,6 +20,15 @@ connection.connect(function(err) {
 });
 
 //all trades
+app.get('/trades/delete', (req, res) => {
+    // let res;
+    connection.query("DELETE FROM trades", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+    });
+})
+
+//all trades
 app.get('/trades', (req, res) => {
     // let res;
     connection.query("SELECT * FROM trades", function (err, result, fields) {
