@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, Button } from 'react-native';
 
 // import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Multiselect from 'multiselect-react-dropdown';
 
 export default function TabTwoScreen() {
   const [value3, onChangeText] = React.useState('  Insert amount');
   const [value4, onChangeText2] = React.useState('  Insert amount');
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(null);
   const [items, setItems] = React.useState([
     {label: '  Test', value: 'test'},
     {label: '  Production', value: 'prod'}
   ]);
-  const [open2, setOpen2] = React.useState(false);
-  const [value2, setValue2] = React.useState(null);
-  const [items2, setItems2] = React.useState([
-    {label: '  Test', value: 'test'},
-    {label: '  Production', value: 'prod'}
-  ]);
+  // const [open2, setOpen2] = React.useState(false);
+  // const [value2, setValue2] = React.useState(null);
+  // const [items2, setItems2] = React.useState([
+  //   {label: '  Test', value: 'test', selectable: 'selectable'},
+  //   {label: '  Production', value: 'prod', selectable: 'selectable'}
+  // ]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -65,22 +68,36 @@ export default function TabTwoScreen() {
         Cryptos<br />
         <br />
       </Text>
-      <DropDownPicker
-        style={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 0.5, alignSelf: 'center'}}
-        containerStyle={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 1, alignSelf: 'center'}}
-        textStyle={{ marginVertical: 10}}
-        open={open2}
-        value={value2}
-        items={items2}
-        setOpen={setOpen2}
-        setValue={setValue2}
-        setItems={setItems2}
-        placeholder="  Select bot mode"
-        showTickIcon={false}
-        showArrowIcon={false}
-        multiple={true}
-        min={1}
-        selectedItemContainerStyle={{ backgroundColor: "green" }}
+      <Multiselect
+        customCloseIcon={<>✖</>}
+        options={[{name: 'ETH', id: 1}, {name: 'BTC', id: 2}, {name: 'SOL', id: 3}]}
+        style= {{
+          searchBox: {
+            borderColor: 'grey',
+            'border-radius': '0px',
+            width: 185,
+            height: 40,
+            color: 'green',
+          },
+          chips: {
+            background: 'white',
+            border: '1px solid #5094d3',
+            color: 'black',
+          },
+        }}
+        // selectedValues={this.state.selectedValue}
+        // onSelect={this.onSelect}
+        // onRemove={this.onRemove}
+        displayValue="name"
+        placeholder="Select cryptos"
+      />
+      <Text style={styles.title}>
+        <br />
+        <br />
+      </Text>
+      <Button
+        // onPress={() => Alert.alert('Simple Button pressed')}
+        title="Apply changes"
       />
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
