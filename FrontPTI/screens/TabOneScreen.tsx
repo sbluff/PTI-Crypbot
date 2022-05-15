@@ -10,6 +10,10 @@ import axios from 'axios'
 // console.log("HELLOOOOO: ")
 // console.log(tableData)
 
+let tradesData:number[] = []
+let tradesLabel:string[] = []
+setTradesData()
+
 const MyLineChart = () => {
   return (
     <>
@@ -17,11 +21,11 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'October', 'November', 'December'],
+            tradesLabel,
           datasets: [
             {
-              data: getTrades(),
-              strokeWidth: 2,
+              data: tradesData,
+              strokeWidth: 3,
             },
           ],
         }}
@@ -29,6 +33,7 @@ const MyLineChart = () => {
         height={Dimensions.get('window').height - 600}
         chartConfig={{
           backgroundColor: '#1cc910',
+          
           backgroundGradientFrom: '#eff3ff',
           backgroundGradientTo: '#efefef',
           decimalPlaces: 2,
@@ -61,20 +66,18 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   );
 }
 
-function getTrades(): number[]{
-  const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:8080"
-  };
-
+//updates tradesData value and tradesLabels
+function setTradesData(){
   axios.get('http://localhost:8080/trades')
-  .then(response => {
-    console.log(response.data)
-    return [1,2,3,4,5,6,7,8]
+  .then((response) => {
+    let trades = response.data
+    for(let i:number = 0; i < 12; i++){
+      tradesData.push(Math.round(trades[i]['entryPrice']))
+      tradesLabel.push(trades[i]['startDate'])
+    }
+    console.log(tradesLabel)
   })
-
-  return [1,2,3,4,5,6,7,8]
-}
+} 
 
 const styles = StyleSheet.create({
   container: {
