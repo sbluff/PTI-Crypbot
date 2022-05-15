@@ -4,6 +4,11 @@ import { SafeAreaView, Dimensions, ScrollView, Button, StyleSheet } from 'react-
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import { LineChart } from 'react-native-chart-kit';
+import axios from 'axios'
+// // import {tableData} from '../data/tableData';
+
+// console.log("HELLOOOOO: ")
+// console.log(tableData)
 
 const MyLineChart = () => {
   return (
@@ -12,10 +17,10 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            ['January', 'February', 'March', 'April', 'May', 'June'],
+            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'October', 'November', 'December'],
           datasets: [
             {
-              data: [20, 45, 28, 80, 99, 43],
+              data: getTrades(),
               strokeWidth: 2,
             },
           ],
@@ -54,6 +59,21 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
+}
+
+function getTrades(): number[]{
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "http://localhost:8080"
+  };
+
+  axios.get('http://localhost:8080/trades')
+  .then(response => {
+    console.log(response.data)
+    return [1,2,3,4,5,6,7,8]
+  })
+
+  return [1,2,3,4,5,6,7,8]
 }
 
 const styles = StyleSheet.create({

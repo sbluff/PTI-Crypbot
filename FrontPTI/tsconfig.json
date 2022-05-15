@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
+  "lib":["es2018.promise"],
   "compilerOptions": {
-    "strict": true
+    "strict": false
   }
 }
