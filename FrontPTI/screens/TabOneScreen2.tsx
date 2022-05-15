@@ -40,6 +40,11 @@ const MyLineChart = () => {
           backgroundGradientTo: '#efefef',
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          propsForDots: {
+            r: "2",
+          //   strokeWidth: "0",
+          //   stroke: "#ffa726"
+          },
           style: {
             borderRadius: 16,
             marginHorizontal: 50,
@@ -76,7 +81,7 @@ function setTradesData(){
     let trades = response.data
     for(let i:number = 0; i < response.data.length; i++){
       coins_amount += trades[i]['number_coins']
-      coins_transactions.push({"coins_balance": coins_amount, "date": trades[i]['startDate']})
+      coins_transactions.push({"coins_balance": coins_amount, "number_coins": trades[i]['number_coins'], "date": trades[i]['startDate']})
     }
   })
 
@@ -84,8 +89,7 @@ function setTradesData(){
   .then((response) => {
     let trades = response.data
     for(let i:number = 0; i < response.data.length; i++){
-      coins_amount += trades[i]['number_coins']*-1
-      coins_transactions.push({"coins_balance": coins_amount, "date": trades[i]['closeDate']})
+      coins_transactions.push({"number_coins": trades[i]['number_coins']*-1, "date": trades[i]['closeDate']})
     }
     coins_transactions.sort(function(a,b){
       let dateA = new Date(a['date']).getTime()
@@ -95,7 +99,8 @@ function setTradesData(){
 
     console.log(coins_transactions)
     for(let i:number = 0; i < coins_transactions.length; i++){
-      tradesData.push(coins_transactions[i]['coins_balance'])
+      coins_amount += coins_transactions[i]['number_coins']
+      tradesData.push(coins_amount)
     }
   })
 } 

@@ -25,7 +25,7 @@ const MyLineChart = () => {
           datasets: [
             {
               data: tradesData,
-              strokeWidth: 3,
+              strokeWidth: 1,
             },
           ],
         }}
@@ -33,17 +33,23 @@ const MyLineChart = () => {
         yAxisSuffix="$"
         height={Dimensions.get('window').height - 600}
         chartConfig={{
-          backgroundColor: '#1cc910',
+          backgroundColor: '#ffffff',
           
-          backgroundGradientFrom: '#eff3ff',
-          backgroundGradientTo: '#efefef',
+          backgroundGradientFrom: '#ffffff',
+          backgroundGradientTo: '#ffffff',
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          propsForDots: {
+            r: "2",
+          //   strokeWidth: "0",
+          //   stroke: "#ffa726"
+          },
           style: {
             borderRadius: 16,
             marginHorizontal: 50,
           },
         }}
+        
         style={{
           marginVertical: 8,
           borderRadius: 16,
