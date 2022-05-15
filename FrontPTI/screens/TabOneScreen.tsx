@@ -30,6 +30,7 @@ const MyLineChart = () => {
           ],
         }}
         width={Dimensions.get('window').width - 50}
+        yAxisSuffix="$"
         height={Dimensions.get('window').height - 600}
         chartConfig={{
           backgroundColor: '#1cc910',
@@ -55,7 +56,7 @@ const MyLineChart = () => {
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bot Activity Chart</Text>
+      <Text style={styles.title}>BTC Buy Orders</Text>
       <View>
         <MyLineChart />
       </View>
@@ -71,11 +72,10 @@ function setTradesData(){
   axios.get('http://localhost:8080/trades')
   .then((response) => {
     let trades = response.data
-    for(let i:number = 0; i < 12; i++){
-      tradesData.push(Math.round(trades[i]['entryPrice']))
+    for(let i:number = 0; i < response.data.length; i++){
+      tradesData.push(trades[i]['entryPrice'])
       tradesLabel.push(trades[i]['startDate'])
     }
-    console.log(tradesLabel)
   })
 } 
 

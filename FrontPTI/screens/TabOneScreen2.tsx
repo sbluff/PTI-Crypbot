@@ -4,6 +4,16 @@ import { SafeAreaView, Dimensions, ScrollView, Button, StyleSheet } from 'react-
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import { LineChart } from 'react-native-chart-kit';
+import axios from 'axios'
+// // import {tableData} from '../data/tableData';
+
+// console.log("HELLOOOOO: ")
+// console.log(tableData)
+
+let coins_transactions = []
+let tradesData:number[] = []
+let tradesLabel:string[] = []
+setTradesData()
 
 const MyLineChart = () => {
   return (
@@ -12,18 +22,20 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            ['January', 'February', 'March', 'April', 'May', 'June'],
+            tradesLabel,
           datasets: [
             {
-              data: [20, 45, 28, 80, 99, 43],
-              strokeWidth: 2,
+              data: tradesData,
+              strokeWidth: 3,
             },
           ],
         }}
         width={Dimensions.get('window').width - 50}
+        yAxisSuffix="BTC"
         height={Dimensions.get('window').height - 600}
         chartConfig={{
           backgroundColor: '#1cc910',
+          
           backgroundGradientFrom: '#eff3ff',
           backgroundGradientTo: '#efefef',
           decimalPlaces: 2,
@@ -42,10 +54,10 @@ const MyLineChart = () => {
   );
 };
 
-export default function TabOneScreen2({ navigation }: RootTabScreenProps<'TabOne2'>) {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Investment value historic</Text>
+      <Text style={styles.title}>BTC Tokens</Text>
       <View>
         <MyLineChart />
       </View>
@@ -55,6 +67,38 @@ export default function TabOneScreen2({ navigation }: RootTabScreenProps<'TabOne
     </View>
   );
 }
+
+//updates tradesData value and tradesLabels
+function setTradesData(){
+  let coins_amount = 0
+  axios.get('http://localhost:8080/trades')
+  .then((response) => {
+    let trades = response.data
+    for(let i:number = 0; i < response.data.length; i++){
+      coins_amount += trades[i]['number_coins']
+      coins_transactions.push({"coins_balance": coins_amount, "date": trades[i]['startDate']})
+    }
+  })
+
+  axios.get('http://localhost:8080/trades/close')
+  .then((response) => {
+    let trades = response.data
+    for(let i:number = 0; i < response.data.length; i++){
+      coins_amount += trades[i]['number_coins']*-1
+      coins_transactions.push({"coins_balance": coins_amount, "date": trades[i]['closeDate']})
+    }
+    coins_transactions.sort(function(a,b){
+      let dateA = new Date(a['date']).getTime()
+      let dateB = new Date(b['date']).getTime()
+      return dateA - dateB
+    })
+
+    console.log(coins_transactions)
+    for(let i:number = 0; i < coins_transactions.length; i++){
+      tradesData.push(coins_transactions[i]['coins_balance'])
+    }
+  })
+} 
 
 const styles = StyleSheet.create({
   container: {
