@@ -10,6 +10,10 @@ import axios from 'axios'
 // console.log("HELLOOOOO: ")
 // console.log(tableData)
 
+let tradesData:number[] = []
+let tradesLabel:string[] = []
+setTradesData()
+
 const MyLineChart = () => {
   return (
     <>
@@ -17,18 +21,20 @@ const MyLineChart = () => {
       <LineChart
         data={{
           labels: 
-            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'October', 'November', 'December'],
+            tradesLabel,
           datasets: [
             {
-              data: getTrades(),
-              strokeWidth: 2,
+              data: tradesData,
+              strokeWidth: 3,
             },
           ],
         }}
         width={Dimensions.get('window').width - 50}
+        yAxisSuffix="$"
         height={Dimensions.get('window').height - 600}
         chartConfig={{
           backgroundColor: '#1cc910',
+          
           backgroundGradientFrom: '#eff3ff',
           backgroundGradientTo: '#efefef',
           decimalPlaces: 2,
@@ -50,7 +56,7 @@ const MyLineChart = () => {
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bot Activity Chart</Text>
+      <Text style={styles.title}>BTC Buy Orders</Text>
       <View>
         <MyLineChart />
       </View>
@@ -61,20 +67,17 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   );
 }
 
-function getTrades(): number[]{
-  const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:8080"
-  };
-
+//updates tradesData value and tradesLabels
+function setTradesData(){
   axios.get('http://localhost:8080/trades')
-  .then(response => {
-    console.log(response.data)
-    return [1,2,3,4,5,6,7,8]
+  .then((response) => {
+    let trades = response.data
+    for(let i:number = 0; i < response.data.length; i++){
+      tradesData.push(trades[i]['entryPrice'])
+      tradesLabel.push(trades[i]['startDate'])
+    }
   })
-
-  return [1,2,3,4,5,6,7,8]
-}
+} 
 
 const styles = StyleSheet.create({
   container: {

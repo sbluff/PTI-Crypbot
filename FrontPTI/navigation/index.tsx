@@ -69,7 +69,7 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Bot activity',
+          title: 'BTC Buy Orders',
           tabBarLabelStyle: {
             fontSize: 16,
             marginVertical: 5,
@@ -95,7 +95,7 @@ function BottomTabNavigator() {
         name="TabOne2"
         component={TabOneScreen2}
         options={({ navigation }: RootTabScreenProps<'TabOne2'>) => ({
-          title: 'Investment value',
+          title: 'BTC Tokens',
           tabBarLabelStyle: {
             fontSize: 16,
             marginVertical: 5,
