@@ -104,14 +104,14 @@ export default function TabTwoScreen() {
         <br />
       </Text>
       <View style={{ flexDirection:"row" }}>
-        <View style={{ marginRight: 20 }}>
+        <View style={{ width: 150, marginRight: 20 }}>
           <Button
             //onPress={() => alert('Changes applied succesfully')}
             onPress={() => applychanges()}
             title="Apply changes"
           />
         </View>
-        <View style={{ marginLeft: 20 }}>
+        <View style={{ width: 150, marginLeft: 20 }}>
           <Button
             onPress={() => clearval1()}
             title="Clear values"
