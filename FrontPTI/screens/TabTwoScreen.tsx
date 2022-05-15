@@ -35,7 +35,7 @@ export default function TabTwoScreen() {
         <br />
       </Text>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={text => cr(text)}
         onChange={text => onChangeText(text)}
         value={credit}
@@ -46,7 +46,7 @@ export default function TabTwoScreen() {
         <br />
       </Text>
       <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={{ width: 185, height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={text => ps(text)}
         onChange={text => onChangeText2(text)}
         value={PSize}
