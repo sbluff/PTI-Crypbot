@@ -78,6 +78,7 @@ export default function TabTwoScreen() {
       </Text>
       <Multiselect
         customCloseIcon={<>✖</>}
+        selectedValues={[{name: 'BTC', id: 2}]}
         options={[{name: 'ETH', id: 1}, {name: 'BTC', id: 2}, {name: 'SOL', id: 3}, {name: 'ADA', id: 4}]}
         style= {{
           searchBox: {
